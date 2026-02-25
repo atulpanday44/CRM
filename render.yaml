@@ -7,9 +7,10 @@ databases:
     plan: free
 
 services:
-  # Backend (Spring Boot)
+  # Backend (Spring Boot) - free tier
   - type: web
     name: crm-backend
+    plan: free
     runtime: docker
     dockerfilePath: ./backend-spring/Dockerfile
     dockerContext: ./backend-spring
@@ -27,7 +28,7 @@ services:
       - key: CORS_ORIGINS
         sync: false
 
-  # Frontend (static site)
+  # Frontend (static site) - always free
   - type: web
     name: crm-frontend
     runtime: static
