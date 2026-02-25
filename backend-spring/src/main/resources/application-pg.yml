@@ -1,0 +1,15 @@
+# PostgreSQL profile – use when you want a persistent database.
+# Run: mvn spring-boot:run -Dspring-boot.run.profiles=pg
+# Set env: DB_URL, DB_USERNAME, DB_PASSWORD, JWT_SECRET (or use defaults below)
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/internal_crm}
+    username: ${DB_USERNAME:${user.name}}
+    password: ${DB_PASSWORD:}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+    open-in-view: false

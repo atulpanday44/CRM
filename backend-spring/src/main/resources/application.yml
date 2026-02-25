@@ -1,0 +1,28 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: crm-backend
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/internal_crm}
+    username: ${DB_USERNAME:${user.name}}
+    password: ${DB_PASSWORD:}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        default_schema: public
+    open-in-view: false
+
+# JWT (set in env for production)
+jwt:
+  secret: ${JWT_SECRET:your-256-bit-secret-change-in-production-must-be-at-least-32-chars}
+  access-validity-ms: 900000
+  refresh-validity-ms: 604800000

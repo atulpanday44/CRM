@@ -1,0 +1,19 @@
+# Use H2 in-memory database – no file lock, no "database already in use".
+# Data is lost on app restart. For persistent dev DB use application-dev-file.yml and run only one instance.
+spring:
+  datasource:
+    url: jdbc:h2:mem:crmdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+
+# Optional: enable H2 console at http://localhost:8080/api/h2-console
+# (Only enable for local dev; disable in production.)
+#  h2:
+#    console:
+#      enabled: true
