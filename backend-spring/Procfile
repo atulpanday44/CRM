@@ -1,0 +1,1 @@
+web: java -Dspring.profiles.active=pg -jar target/crm-backend-1.0.0.jar

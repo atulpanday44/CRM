@@ -98,22 +98,25 @@ Create `frontend/.env` for production or custom backend:
 VITE_API_URL=https://your-api.example.com/api
 ```
 
-## Deploy to production (Render)
+## Deploy to production
 
-1. **Push your code** to GitHub (e.g. [github.com/atulpanday44/CRM](https://github.com/atulpanday44/CRM)).
+### Option A: Railway (free tier, no card for trial)
 
-2. **Go to** [dashboard.render.com](https://dashboard.render.com) → **New** → **Blueprint**.
+1. Go to [railway.com/new](https://railway.com/new) and sign in with GitHub.
+2. **Create project** → **Deploy from GitHub** → select `atulpanday44/CRM`.
+3. Add **PostgreSQL** (Database → Add PostgreSQL).
+4. Add **backend service**: New → GitHub Repo → same repo, set **Root Directory** to `backend-spring`. Railway auto-detects Java/Maven. Add env vars: `DATABASE_URL` (from Postgres connection), `SPRING_PROFILES_ACTIVE=pg`, `SUPERADMIN_EMAIL`, `SUPERADMIN_PASSWORD`. Generate domain.
+5. Add **frontend service**: New → GitHub Repo → same repo, set **Root Directory** to `frontend`. Build: `npm ci && npm run build`. Publish: `dist`. Add env: `VITE_API_URL=https://YOUR-BACKEND-URL/api`. Generate domain.
+6. **Backend**: Add `CORS_ORIGINS` = your frontend URL.
+7. Log in with superadmin email/password.
 
-3. **Connect** your GitHub repo. Render reads `render.yaml` and creates:
-   - PostgreSQL database
-   - Backend (Spring Boot)
-   - Frontend (static site)
+### Option B: Render (free frontend + DB; backend requires paid plan)
 
-4. **Set environment variables** in the Render dashboard:
-   - **crm-backend**: `SUPERADMIN_EMAIL`, `SUPERADMIN_PASSWORD`, `CORS_ORIGINS` (your frontend URL, e.g. `https://crm-frontend-xxx.onrender.com`)
-   - **crm-frontend**: `VITE_API_URL` = your backend URL + `/api` (e.g. `https://crm-backend-xxx.onrender.com/api`)
+Render’s free tier does **not** support Docker, and the backend uses Docker. The database and frontend deploy for free; the backend needs a paid plan.
 
-5. **Deploy**. The first deploy may take a few minutes. After backend is live, copy its URL, set `VITE_API_URL` in the frontend, then redeploy the frontend. Log in with the superadmin credentials you set.
+1. Go to [dashboard.render.com](https://dashboard.render.com) → **Blueprints** → connect your repo.
+2. Set `SUPERADMIN_EMAIL` and `SUPERADMIN_PASSWORD` for the backend.
+3. Deploy. Then set `CORS_ORIGINS` (frontend URL) on backend, and `VITE_API_URL` (backend URL + `/api`) on frontend; redeploy both.
 
 ## API Endpoints
 
