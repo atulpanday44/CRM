@@ -98,6 +98,23 @@ Create `frontend/.env` for production or custom backend:
 VITE_API_URL=https://your-api.example.com/api
 ```
 
+## Deploy to production (Render)
+
+1. **Push your code** to GitHub (e.g. [github.com/atulpanday44/CRM](https://github.com/atulpanday44/CRM)).
+
+2. **Go to** [dashboard.render.com](https://dashboard.render.com) → **New** → **Blueprint**.
+
+3. **Connect** your GitHub repo. Render reads `render.yaml` and creates:
+   - PostgreSQL database
+   - Backend (Spring Boot)
+   - Frontend (static site)
+
+4. **Set environment variables** in the Render dashboard:
+   - **crm-backend**: `SUPERADMIN_EMAIL`, `SUPERADMIN_PASSWORD`, `CORS_ORIGINS` (your frontend URL, e.g. `https://crm-frontend-xxx.onrender.com`)
+   - **crm-frontend**: `VITE_API_URL` = your backend URL + `/api` (e.g. `https://crm-backend-xxx.onrender.com/api`)
+
+5. **Deploy**. The first deploy may take a few minutes. After backend is live, copy its URL, set `VITE_API_URL` in the frontend, then redeploy the frontend. Log in with the superadmin credentials you set.
+
 ## API Endpoints
 
 | Endpoint | Description |

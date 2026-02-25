@@ -15,6 +15,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -44,7 +46,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of(
+        List<String> origins = new ArrayList<>(List.of(
                 "http://localhost:5173",
                 "http://localhost:5174",
                 "http://localhost:5175",
@@ -54,6 +56,11 @@ public class SecurityConfig {
                 "http://localhost:8080",
                 "http://127.0.0.1:8080"
         ));
+        String extra = System.getenv("CORS_ORIGINS");
+        if (extra != null && !extra.isBlank()) {
+            origins.addAll(Arrays.stream(extra.split(",")).map(String::trim).filter(s -> !s.isEmpty()).toList());
+        }
+        config.setAllowedOrigins(origins);
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
