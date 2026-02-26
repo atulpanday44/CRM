@@ -1,100 +1,47 @@
-# Deploy CRM (100% Free – No Credit Card)
+# Deploy CRM
 
-Use **Vercel** (frontend) + **Koyeb** (backend + database). Both have free tiers.
+## Simple: Frontend on Vercel (no backend deploy)
 
----
+Deploy the frontend live for your portfolio. The backend runs locally with H2 when you demo.
 
-## Deploy from terminal (Koyeb backend)
+### 1. Deploy frontend to Vercel
 
-If you have a Koyeb account and token:
+1. Go to **[vercel.com](https://vercel.com)** and sign in with GitHub (no card required).
+2. Click **Add New** → **Project**.
+3. Import **atulpanday44/CRM**.
+4. **Configure**:
+   - **Root Directory**: click **Edit** → set to `frontend`
+   - **Framework**: Vite (auto-detected)
+   - **Environment Variables**: leave empty (uses `localhost:8080` for API)
+5. Click **Deploy**.
 
-1. Get **KOYEB_TOKEN** from [app.koyeb.com/account/api](https://app.koyeb.com/account/api)
-2. Create **PostgreSQL** at app.koyeb.com → Create → Database → copy **Connection URI**
-3. Run from project root:
+Your frontend is live at `https://crm-xxx.vercel.app`.
+
+### 2. Run backend locally when demoing
 
 ```bash
-KOYEB_TOKEN=xxx DATABASE_URL="postgresql://..." \
-SUPERADMIN_EMAIL=admin@example.com SUPERADMIN_PASSWORD=your-password \
-./scripts/deploy-koyeb.sh
+cd backend-spring
+mvn spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
-Then deploy frontend on Vercel (see below).
+This starts the backend with H2 (in-memory). Visit your Vercel URL — it will call `localhost:8080`, so it works when you're running the backend.
+
+### 3. First login
+
+On first run, create a superadmin:
+
+```bash
+export SUPERADMIN_EMAIL=admin@example.com
+export SUPERADMIN_PASSWORD=your-password
+cd backend-spring && mvn spring-boot:run -Dspring-boot.run.profiles=dev
+```
 
 ---
 
-## Part 1: Backend + Database on Koyeb (Dashboard)
+## Full deploy (frontend + backend) — when you have a host
 
-### 1. Create Koyeb Account
-- Go to **[app.koyeb.com](https://app.koyeb.com)** and sign up (GitHub works)
-- Free tier: 1 web service + 1 Postgres database (50 hrs/month)
+When you find a free backend host (Koyeb, Railway, etc.):
 
-### 2. Add PostgreSQL
-1. Click **Create** → **Database**
-2. Choose **PostgreSQL**
-3. Name it `crm-db`
-4. Region: pick one (e.g. US East)
-5. Click **Create Database**
-6. Once ready, open the database → **Connection** tab
-7. Copy the **Connection URI** (format: `postgresql://user:pass@host:port/db`)
-
-### 3. Deploy Backend
-1. Click **Create** → **Web Service**
-2. **Deploy from GitHub** → connect repo → select **atulpanday44/CRM**
-3. **Builder**:
-   - Toggle **Override** for **Work directory** → set to `backend-spring`
-   - Builder: **Java** (or Dockerfile if you prefer)
-4. **Environment variables**:
-   ```
-   DATABASE_URL           = (paste Connection URI from step 2)
-   SPRING_PROFILES_ACTIVE  = pg
-   SUPERADMIN_EMAIL        = admin@example.com
-   SUPERADMIN_PASSWORD     = your-secure-password
-   ```
-5. Click **Deploy**
-6. After deploy, open the service → **Domains** → **Generate domain**
-7. Copy the backend URL (e.g. `https://crm-backend-xxxx.koyeb.app`)
-
----
-
-## Part 2: Frontend on Vercel
-
-### 1. Create Vercel Account
-- Go to **[vercel.com](https://vercel.com)** and sign up with GitHub
-
-### 2. Deploy Frontend
-1. Click **Add New** → **Project**
-2. Import **atulpanday44/CRM**
-3. **Configure Project**:
-   - **Root Directory**: click **Edit** → set to `frontend`
-   - **Framework Preset**: Vite (auto-detected)
-   - **Environment Variables** → Add:
-     ```
-     VITE_API_URL = https://YOUR-KOYEB-BACKEND-URL/api
-     ```
-     (Replace with your Koyeb backend URL from Part 1, step 7)
-4. Click **Deploy**
-5. Copy the frontend URL (e.g. `https://crm-xxxx.vercel.app`)
-
----
-
-## Part 3: Fix CORS
-
-1. Go back to **Koyeb** → your backend service
-2. **Settings** → **Environment variables** → Add:
-   ```
-   CORS_ORIGINS = https://YOUR-VERCEL-FRONTEND-URL
-   ```
-   (No trailing slash)
-3. Save — the backend will redeploy
-
----
-
-## Done
-
-Open your Vercel frontend URL and log in with `SUPERADMIN_EMAIL` and `SUPERADMIN_PASSWORD`.
-
----
-
-## Alternative: Railway (Trial Credit)
-
-Railway offers $5 trial credit (≈30 days). See the original steps above if you prefer Railway.
+- Deploy backend, get its URL
+- Redeploy frontend on Vercel with `VITE_API_URL=https://your-backend-url/api`
+- Add `CORS_ORIGINS` (your Vercel URL) to the backend

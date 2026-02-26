@@ -100,14 +100,15 @@ VITE_API_URL=https://your-api.example.com/api
 
 ## Deploy to production
 
-### Option A: Vercel + Koyeb (100% free, no card)
+### Option A: Frontend only on Vercel (simplest)
 
-- **Frontend**: [Vercel](https://vercel.com) (free)
-- **Backend + DB**: [Koyeb](https://app.koyeb.com) (free tier: 1 web service + Postgres)
+Deploy the frontend to [Vercel](https://vercel.com) (free, no card). Run the backend locally with H2 when you demo. See **[DEPLOY.md](DEPLOY.md)**.
 
-See **[DEPLOY.md](DEPLOY.md)** for step-by-step instructions.
+### Option B: Full deploy — Vercel + Koyeb (requires card)
 
-### Option B: Railway (trial credit)
+Frontend on Vercel, backend + Postgres on Koyeb.
+
+### Option C: Railway (trial credit)
 
 1. Go to [railway.com/new](https://railway.com/new) and sign in with GitHub.
 2. **Create project** → **Deploy from GitHub** → select `atulpanday44/CRM`.
@@ -117,7 +118,7 @@ See **[DEPLOY.md](DEPLOY.md)** for step-by-step instructions.
 6. **Backend**: Add `CORS_ORIGINS` = your frontend URL.
 7. Log in with superadmin email/password.
 
-### Option C: Render (free frontend + DB; backend requires paid plan)
+### Option D: Render (free frontend + DB; backend requires paid plan)
 
 Render’s free tier does **not** support Docker, and the backend uses Docker. Connect repo via Blueprints.
 
