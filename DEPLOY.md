@@ -4,7 +4,25 @@ Use **Vercel** (frontend) + **Koyeb** (backend + database). Both have free tiers
 
 ---
 
-## Part 1: Backend + Database on Koyeb
+## Deploy from terminal (Koyeb backend)
+
+If you have a Koyeb account and token:
+
+1. Get **KOYEB_TOKEN** from [app.koyeb.com/account/api](https://app.koyeb.com/account/api)
+2. Create **PostgreSQL** at app.koyeb.com → Create → Database → copy **Connection URI**
+3. Run from project root:
+
+```bash
+KOYEB_TOKEN=xxx DATABASE_URL="postgresql://..." \
+SUPERADMIN_EMAIL=admin@example.com SUPERADMIN_PASSWORD=your-password \
+./scripts/deploy-koyeb.sh
+```
+
+Then deploy frontend on Vercel (see below).
+
+---
+
+## Part 1: Backend + Database on Koyeb (Dashboard)
 
 ### 1. Create Koyeb Account
 - Go to **[app.koyeb.com](https://app.koyeb.com)** and sign up (GitHub works)
