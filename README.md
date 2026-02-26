@@ -100,7 +100,14 @@ VITE_API_URL=https://your-api.example.com/api
 
 ## Deploy to production
 
-### Option A: Railway (free tier, no card for trial)
+### Option A: Vercel + Koyeb (100% free, no card)
+
+- **Frontend**: [Vercel](https://vercel.com) (free)
+- **Backend + DB**: [Koyeb](https://app.koyeb.com) (free tier: 1 web service + Postgres)
+
+See **[DEPLOY.md](DEPLOY.md)** for step-by-step instructions.
+
+### Option B: Railway (trial credit)
 
 1. Go to [railway.com/new](https://railway.com/new) and sign in with GitHub.
 2. **Create project** → **Deploy from GitHub** → select `atulpanday44/CRM`.
@@ -110,13 +117,9 @@ VITE_API_URL=https://your-api.example.com/api
 6. **Backend**: Add `CORS_ORIGINS` = your frontend URL.
 7. Log in with superadmin email/password.
 
-### Option B: Render (free frontend + DB; backend requires paid plan)
+### Option C: Render (free frontend + DB; backend requires paid plan)
 
-Render’s free tier does **not** support Docker, and the backend uses Docker. The database and frontend deploy for free; the backend needs a paid plan.
-
-1. Go to [dashboard.render.com](https://dashboard.render.com) → **Blueprints** → connect your repo.
-2. Set `SUPERADMIN_EMAIL` and `SUPERADMIN_PASSWORD` for the backend.
-3. Deploy. Then set `CORS_ORIGINS` (frontend URL) on backend, and `VITE_API_URL` (backend URL + `/api`) on frontend; redeploy both.
+Render’s free tier does **not** support Docker, and the backend uses Docker. Connect repo via Blueprints.
 
 ## API Endpoints
 
