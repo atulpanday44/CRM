@@ -7,11 +7,12 @@ databases:
     plan: free
 
 services:
-  # Backend (Spring Boot) - free tier
+  # Backend (Spring Boot) - free tier (Docker supported on free tier)
   - type: web
     name: crm-backend
     plan: free
     runtime: docker
+    healthCheckPath: /api
     dockerfilePath: ./backend-spring/Dockerfile
     dockerContext: ./backend-spring
     envVars:
@@ -25,6 +26,7 @@ services:
         sync: false
       - key: SUPERADMIN_PASSWORD
         sync: false
+      # Set to https://crm-frontend-XXXX.onrender.com after first deploy
       - key: CORS_ORIGINS
         sync: false
 
@@ -40,5 +42,6 @@ services:
         source: /*
         destination: /index.html
     envVars:
+      # Set to https://crm-backend-XXXX.onrender.com/api after first deploy
       - key: VITE_API_URL
         sync: false
